@@ -1,0 +1,47 @@
+.ps {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.firstview {
+  color: white;
+  background: url("../Images/home1.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 85vh;
+  -webkit-transition: background-image 1s ease-in-out;
+  transition: background-image 1s ease-in-out;
+}
+.firstview .view-text {
+  top: 185px;
+  left: 100px;
+  line-height: 35px;
+  text-align: center;
+}
+@media (max-width: 576px) {
+  .firstview .view-text {
+    left: 10px;
+    top: 150px;
+    text-align: left;
+    width: 250px;
+  }
+}
+.firstview .view-text span {
+  color: rgb(81, 78, 241);
+}
+.firstview .view-text button {
+  background-color: rgb(81, 78, 241);
+}
+.firstview .view-text .fc {
+  -webkit-animation: fadein 2s linear;
+          animation: fadein 2s linear;
+}
+
+@media (max-width: 576px) {
+  .icons {
+    padding-top: 20px;
+  }
+}
