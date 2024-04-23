@@ -48,7 +48,8 @@ function Navbar() {
                 <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={toggle}>Sign in</button>
             </div>
         </nav>
-        {visible && (<Login toggle={toggle}/>)}
+        {visible && (<Login toggle={toggle}/>)} 
+    {/* visible true xa vani login component visible hunu paryo */}
         </>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "/public/Styles/css/Navbar.css"
 import Register from './Register';
-
+import axios from 'axios';
 function Login({toggle}) {
     const [reg, setReg]=useState(false);
     const showReg=()=>{
@@ -15,15 +15,22 @@ function Login({toggle}) {
         }
       )   
       const handleLog=(event)=>{
-        setlogData({...logData,[event.target.name]:[event.target.value]}) 
+        setlogData({...logData,[event.target.name]:[event.target.value]})  
       }
       async function forLog(event){
-        const res =  await axios.post("http://localhost:3000/login",logData) 
-      }
+        event.preventDefault();
+        const res =  await axios.post("http://localhost:3000/login",logData) ;
+    
+        if(res.data.success){
+            toggle();
+            console.log("logged in");
+        }     
+         }
     
        return (
     <>
-{reg ? (<Register showReg={showReg} toggle={toggle}/>): 
+{reg ? 
+     (<Register showReg={showReg} toggle={toggle}/>): 
             <div>
                 <div className="login bg-light ps p-5 rounded ">
                     <i className="bi bi-x-circle-fill lcr"  onClick={toggle}/>
@@ -47,7 +54,7 @@ function Login({toggle}) {
                                 <i className="bi  bi-key px-1" />
                             </div>
                         </div>
-                        <input type="submit" name="lsubmit" defaultValue="Login" className="btn btn-danger" required onClick={forLog}/><br /><br />
+                        <input type="submit" name="lsubmit" defaultValue="Login" className="btn btn-danger" onClick={forLog}/><br /><br />
                         <p className="text-primary-emphasis">New User?</p><a href className="btn btn-outline-primary reg" onClick={showReg}>Register
                             here
                         </a><p />

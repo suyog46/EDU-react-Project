@@ -1,43 +1,43 @@
 var express = require('express');
-var router= express.Router();
-const cors= require('cors');
-const con= require("./connection"); //page ko nam...ani uta bata k aauxa chai ..uta k export garexa tes ma var parxa
-const bcrypt= require('bcrypt');
-const dotenv=require('dotenv');
+var router = express.Router();
+const cors = require('cors');
+const con = require("./connection"); //page ko nam...ani uta bata k aauxa chai ..uta k export garexa tes ma var parxa
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
 dotenv.config();
 
 // const salt= process.env.salt;
 
-const salt= 10;
+const salt = 10;
 
 router.use(cors({
-  origin:"http://localhost:5173",
-  credentials:true,
-  methods:["POST","GET","DELETE","PUT"],
-  optionsSuccessStatus:200
+  origin: "http://localhost:5173",
+  credentials: true,
+  methods: ["POST", "GET", "DELETE", "PUT"],
+  optionsSuccessStatus: 200
 })
 )
 
 
 
-router.post("/signup",(req,res)=>{
+router.post("/signup", (req, res) => {
   console.log(req.body)
-const name=req.body.uname;
-const email=req.body.email;
-const userType=req.body.userType;
+  const name = req.body.uname;
+  const email = req.body.email;
+  const userType = req.body.userType;
 
-bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
-  if (err) return res.json({ Error: "Error hashing password" });
+  bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
+    if (err) return res.json({ Error: "Error hashing password" });
 
-   const values = [name, email, hash];
-  const insertUserQuery = "INSERT INTO users (username, email, password) VALUES (?)";
-  con.query(insertUserQuery, [values], function (err, result) {
-    if (err) return res.json({ Error: "Error inserting data" });
-    return res.json({ message: "User successfully registered", success: true });
+    const values = [name, email, hash];
+    const insertUserQuery = "INSERT INTO user (username, email, password) VALUES (?)";
+    con.query(insertUserQuery, [values], function (err, result) {
+      if (err) return res.json({ Error: "Error inserting data" });
+      return res.json({ message: "User successfully registered", success: true });
+
+    });
 
   });
-
-});
 
 
 })
@@ -45,30 +45,76 @@ bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
 
 
 
-router.get('/login', function(req, res, next) {
 
-  const sql="SELECT * FROM users ";
-  con.query(sql,values,(err,result)=>{              //3nta parameter use garda chai last ma function use garni jun le chai failure ra success linxa
-    if(err){
-        return res.json({Error:"there is  register error"})
+// router.post('/login', function (req, res, next) {
+//   const sql = "SELECT * FROM user WHERE email= ? ";
+//   console.log(getpassword);
+//   con.query(sql, [getemail], (err, result) => {
+//     if (err) {
+//       console.log("Error executing SQL query:", err); // Log the error for debugging
+//       return res.json({ Error: "there is a query error" }); // Return an error response
+//     }
+//     if (result.length === 0) return res.json({ accountError: "User not found" });
+//       bcrypt.compare(getpassword.toString(), result[0].password, (err, passwordMatch) => {
+//         if (err) {
+//           console.log("Error comparing passwords with bcrypt:", err); // Log the error for debugging
+//           return res.json({ Error: "there is an error with bcrypt" }); // Return an error response
+//         }
+//         if (passwordMatch) {
+//           console.log("password ni milyo match vayo");
+//           console.log("success in logging query");
+//           return res.json({ success: true });
+//         } else {
+//           return res.json({ Error: "Password incorrect" }); // Return error response for incorrect password
+//         }
+//       });
+//   });
+// });
+router.post("/login", function (req, res) {
+  const sql = "SELECT * FROM user WHERE email = ?";
+  con.query(sql, [req.body.email], (err, result) => {
+    if (err){
+      console.log("unsuccess in sql");
+      return res.json({ Error: "Login error in server" });
+    } 
+    if (result.length === 0) {
+      console.log("user not found");
+      
+      return res.json({ accountError: "User not found" });
     }
-    else{
-      return res.json({success:true});
-    }
-  })});
+    bcrypt.compare(
+      req.body.password.toString(),
+      result[0].password,
+      (err, passwordMatch) => {
+        if (err) return res.json({ Error: "Login error in server" });
+        if (passwordMatch) {
+          console.log("success");
+          return res.json({
+            message: "Login success",
+            success: true,
+          });
+        } else {
+          
+          return res.json({ passwordError: "incorrect password" });
+        }
+      }
+    );
+  });
+});
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   // res.render('index', { title: 'Express' });
   res.send('hello')
 });
 
-router.get('/hello', function(req, res, next) {
+router.get('/hello', function (req, res, next) {
   // res.render('index', { title: 'Express' });
   res.send('hi')
 });
-router.get('/check',function(req,res,next){
-res.render('hey',{name:"suyog"});
+router.get('/check', function (req, res, next) {
+  res.render('hey', { name: "suyog" });
 }
 )
 module.exports = router;

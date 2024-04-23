@@ -6,6 +6,7 @@ function Register({showReg,toggle}) {
     showReg();
     toggle();
   }
+
   //for form data
   const [formData, setFormData]=useState(
     {
