@@ -42,34 +42,6 @@ router.post("/signup", (req, res) => {
 
 })
 
-
-
-
-
-// router.post('/login', function (req, res, next) {
-//   const sql = "SELECT * FROM user WHERE email= ? ";
-//   console.log(getpassword);
-//   con.query(sql, [getemail], (err, result) => {
-//     if (err) {
-//       console.log("Error executing SQL query:", err); // Log the error for debugging
-//       return res.json({ Error: "there is a query error" }); // Return an error response
-//     }
-//     if (result.length === 0) return res.json({ accountError: "User not found" });
-//       bcrypt.compare(getpassword.toString(), result[0].password, (err, passwordMatch) => {
-//         if (err) {
-//           console.log("Error comparing passwords with bcrypt:", err); // Log the error for debugging
-//           return res.json({ Error: "there is an error with bcrypt" }); // Return an error response
-//         }
-//         if (passwordMatch) {
-//           console.log("password ni milyo match vayo");
-//           console.log("success in logging query");
-//           return res.json({ success: true });
-//         } else {
-//           return res.json({ Error: "Password incorrect" }); // Return error response for incorrect password
-//         }
-//       });
-//   });
-// });
 router.post("/login", function (req, res) {
   const sql = "SELECT * FROM user WHERE email = ?";
   con.query(sql, [req.body.email], (err, result) => {
@@ -82,10 +54,7 @@ router.post("/login", function (req, res) {
       
       return res.json({ accountError: "User not found" });
     }
-    bcrypt.compare(
-      req.body.password.toString(),
-      result[0].password,
-      (err, passwordMatch) => {
+    bcrypt.compare( req.body.password.toString(),result[0].password,(err, passwordMatch) => {
         if (err) return res.json({ Error: "Login error in server" });
         if (passwordMatch) {
           console.log("success");
@@ -93,8 +62,9 @@ router.post("/login", function (req, res) {
             message: "Login success",
             success: true,
           });
-        } else {
-          
+        }
+         else {
+          console.log("p incorrect");
           return res.json({ passwordError: "incorrect password" });
         }
       }

@@ -1,19 +1,18 @@
-
-import './App.css'
-import Home from './Components/Home'
-import Footer from './Components/Shared/Footer'
-import Navbar from './Components/Shared/Navbar'
+import './App.css';
+import Home from './Components/Home';
+import Footer from './Components/Shared/Footer';
+import Navbar from './Components/Shared/Navbar';
+import AuthProvider from './Context/authContext'; // Ensure the path is correct
 
 function App() {
-
-
   return (
-    <>
-      <Navbar/>
-      <Home/>
-      <Footer/>
-   </>
-  )
+    <AuthProvider>
+      <Navbar />
+      <Home />
+      <Footer />
+    </AuthProvider>
+  );
+  
 }
 
-export default App
+export default App;

@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "/public/Styles/css/Navbar.css"
 import Login from '../Login';
+import { AuthContext } from '../../Context/authContext';
+
 function Navbar() {
     const [visible, setVisible]=useState(false);
     const toggle=()=>{
         setVisible(!visible);
     }
+const {logout}=useContext(AuthContext)
+ const lout=()=>
+    {toggle();
+    logout();
+};
+
     return (
         <>
         <nav className="navbar navbar-expand-lg bg-body-transparent">
@@ -45,7 +53,10 @@ function Navbar() {
 
                 </div>
 
-                <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={toggle}>Sign in</button>
+<button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={toggle}>Sign in</button> 
+<button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={lout}>logout</button> 
+
+
             </div>
         </nav>
         {visible && (<Login toggle={toggle}/>)} 
