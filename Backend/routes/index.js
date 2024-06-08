@@ -4,6 +4,7 @@ const cors = require('cors');
 const con = require("./connection"); //page ko nam...ani uta bata k aauxa chai ..uta k export garexa tes ma var parxa
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
+const upload= require('./multer');
 dotenv.config();
 
 // const salt= process.env.salt;
@@ -18,19 +19,25 @@ router.use(cors({
 })
 )
 
+// app.post("/single", upload.single("image"), (req, res) => {
+//   console.log(req.file);
+//   res.send("Single FIle upload success");
+// });
 
-
-router.post("/signup", (req, res) => {
+router.post("/signup",upload.single("Image"), (req, res) => {
   console.log(req.body)
   const name = req.body.uname;
   const email = req.body.email;
   const userType = req.body.userType;
-
+const Imagepath=req.file.path;
+if (!name || !email || !req.body.password || !Imagepath) {
+  return res.status(400).json({ Error: "Missing required fields" });
+}
   bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
     if (err) return res.json({ Error: "Error hashing password" });
 
-    const values = [name, email, hash];
-    const insertUserQuery = "INSERT INTO user (username, email, password) VALUES (?)";
+    const values = [name, email, hash,Imagepath];
+    const insertUserQuery = "INSERT INTO user (username, email, password,Image) VALUES (?)";
     con.query(insertUserQuery, [values], function (err, result) {
       if (err) return res.json({ Error: "Error inserting data" });
       return res.json({ message: "User successfully registered", success: true });
@@ -54,13 +61,17 @@ router.post("/login", function (req, res) {
       
       return res.json({ accountError: "User not found" });
     }
-    bcrypt.compare( req.body.password.toString(),result[0].password,(err, passwordMatch) => {
+    const user=result[0];
+    const resimage = user.Image.replace(/\\/g, '/');   /*casuse backend le  "imagepath": "public\\images\\1717823522836--Screenshot (69).png"
+                                                         esto format ma pathairathyo ..frontend ma chai fornt slash chai rathyo*/ 
+    bcrypt.compare( req.body.password.toString(),user.password,(err, passwordMatch) => {
         if (err) return res.json({ Error: "Login error in server" });
         if (passwordMatch) {
           console.log("success");
           return res.json({
             message: "Login success",
             success: true,
+            imagepath:resimage,
           });
         }
          else {

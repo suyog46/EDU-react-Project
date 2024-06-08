@@ -14,6 +14,7 @@ function Register({showReg,toggle}) {
       email:"",
       password:"",
       logintype:"",
+      Image:"",
     }
   )
   const handleInput=(event)=>{
@@ -108,8 +109,8 @@ function Register({showReg,toggle}) {
           Student
         </label>
         <br /><br />
-        <label htmlFor="pimage">Choose a profile picture</label><br />
-        <input type="file" name="pimage" id="pimage" className="rounded" /><br /><br />
+        <label htmlFor="Image">Choose a profile picture</label><br />
+        <input type="file" name="pimage" id="pimage" className="rounded" onChange={handleInput} /><br /><br />
         <input type="submit" name="submit" defaultValue="submit" className="but rounded" onClick={handleSubmit} />
       </div>
     </div>

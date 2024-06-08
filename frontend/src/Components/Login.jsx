@@ -25,10 +25,14 @@ function Login({ toggle }) {
     try {
       const res = await axios.post("http://localhost:3000/login", logData);
       if (res.data.success) {
-        login(true); // Set auth to true on successful login
+        login(true,res.data.imagepath); // Set auth to true on successful login
         toggle();
         // window.location.reload(true);
         console.log("logged in");
+        alert('logged in succesfully!')
+      }
+      else{
+        alert('please check the password and try  agian!');
       }
     } catch (error) {
       console.error("Login failed:", error);

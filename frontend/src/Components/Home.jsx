@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "/public/Styles/css/Home.css"
+import { AuthContext } from '../Context/authContext'
 
 function Home() {
+  const {name}=useContext(AuthContext);
+  console.log(name);
+  
   return (
 <section className="firstview">
   <div className="view-text position-absolute">
