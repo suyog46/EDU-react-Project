@@ -58,17 +58,15 @@ const {logout,auth,imagepath}=useContext(AuthContext)
 {auth ?(
     <div>
 
+    <Link to='/profile'>
     <img src={`http://localhost:3000/${imagepath}`} className='m-3 rounded-circle object-fit' height={40} width={40}/>
+    </Link>
     <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={lout}>logout</button>
     </div>):( <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={toggle}>Sign in</button>)}
- 
-
-
             </div>
         </nav>
         {visible && (<Login toggle={toggle}/>)} 
     {/* visible true xa vani login component visible hunu paryo */}
-   
         </>
     )
 }

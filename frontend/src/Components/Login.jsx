@@ -25,7 +25,7 @@ function Login({ toggle }) {
     try {
       const res = await axios.post("http://localhost:3000/login", logData);
       if (res.data.success) {
-        login(true,res.data.imagepath); // Set auth to true on successful login
+        login(true,res.data.imagepath,res.data.email,res.data.usertype,res.data.username,res.data.uid); // Set auth to true on successful login
         toggle();
         // window.location.reload(true);
         console.log("logged in");

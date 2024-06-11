@@ -28,7 +28,7 @@ router.post("/signup",upload.single("Image"), (req, res) => {
   console.log(req.body)
   const name = req.body.uname;
   const email = req.body.email;
-  const userType = req.body.userType;
+  const userType = req.body.logintype;
 const Imagepath=req.file.path;
 if (!name || !email || !req.body.password || !Imagepath) {
   return res.status(400).json({ Error: "Missing required fields" });
@@ -36,8 +36,8 @@ if (!name || !email || !req.body.password || !Imagepath) {
   bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
     if (err) return res.json({ Error: "Error hashing password" });
 
-    const values = [name, email, hash,Imagepath];
-    const insertUserQuery = "INSERT INTO user (username, email, password,Image) VALUES (?)";
+    const values = [name, email, hash,Imagepath,userType];
+    const insertUserQuery = "INSERT INTO user (username, email, password,Image,usertype) VALUES (?)";
     con.query(insertUserQuery, [values], function (err, result) {
       if (err) return res.json({ Error: "Error inserting data" });
       return res.json({ message: "User successfully registered", success: true });
@@ -47,6 +47,73 @@ if (!name || !email || !req.body.password || !Imagepath) {
   });
 
 
+})
+
+router.post("/coursedata",upload.fields([{ name: 'course_image', maxCount: 1 }, { name: 'course_video', maxCount: 1 }]),function(req,res){
+ const course_title=req.body.course_title
+ const course_image = req.files['course_image'] ? req.files['course_image'][0].path : null;
+ const course_video = req.files['course_video'] ? req.files['course_video'][0].path : null;
+ 
+// {
+//   "course_image": [                                   yo format ma haldinxa 
+//     {
+//       "fieldname": "course_image",
+//       "originalname": "image.jpg",
+//       "encoding": "7bit",
+//       "mimetype": "image/jpeg",
+//       "destination": "./public/images",
+//       "filename": "1625246521456--image.jpg",
+//       "path": "./public/images/1625246521456--image.jpg",
+//       "size": 12345
+//     }
+//   ],
+//   "course_video": [
+//     {
+//       "fieldname": "course_video",
+//       "originalname": "video.mp4",
+//       "encoding": "7bit",
+//       "mimetype": "video/mp4",
+//       "destination": "./public/videos",
+//       "filename": "1625246521456--video.mp4",
+//       "path": "./public/videos/1625246521456--video.mp4",
+//       "size": 987654
+//     }
+//   ]
+// }
+const {
+  about_yourself,
+    course_duration,
+      cover_description,
+      detail_description,
+      course_price,
+      course_category,
+      course_level,
+      course_language,
+      target_audience
+    } = req.body;
+
+ const values=[course_title,cover_description,course_price,course_image,course_video,course_duration,course_level,course_language,about_yourself,detail_description,target_audience,course_category]
+console.log(values);
+  const sql="INSERT INTO courses(title,description,price,image,overview,duration,courselevel,language,aboutyourself,detaildescription,targetaudience,category) VALUES(?)";
+  con.query(sql,[values],(err,result)=>{
+    if(err){
+      return(
+      res.json({
+        message:"error in inserting the data",
+
+      }))
+        }
+        else{
+          console.log(result);
+          return (
+        res.json({
+          message:"success in inserting data",
+          status:true,
+        })
+      )
+        }
+    }
+  )
 })
 
 router.post("/login", function (req, res) {
@@ -72,6 +139,10 @@ router.post("/login", function (req, res) {
             message: "Login success",
             success: true,
             imagepath:resimage,
+            email:user.email,
+            usertype:user.usertype,
+            username:user.username,
+            uid:user.uid,
           });
         }
          else {

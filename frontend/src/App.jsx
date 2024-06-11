@@ -6,6 +6,8 @@ import Navbar from './Components/Shared/Navbar';
 import AuthContext from './Context/authContext'; 
 import Courses from './Components/Courses';
 import About from './Components/About';
+import Profile from './Components/Profile';
+import Addcourse from './Components/Addcourse';
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
         <Route path="/" element={<Home/>} />
         <Route path="/co" element={<Courses/>} />
         <Route path="/about" element={<About/>} />
-
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/Addcourse/:uid" element={<Addcourse/>} />
+        
      </Routes>
         </BrowserRouter>
       </AuthContext> 
