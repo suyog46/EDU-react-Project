@@ -10,7 +10,8 @@ function authContext({children}) {
                                   name:"",
                                   usertype:"",
                                   email:"",
-                                  uid:"",                            
+                                  uid:"",    
+                                  imagepath:"" ,                       
   })
   useEffect(()=>{
     const savedauth=localStorage.getItem('auth');        //here we get the local storage
@@ -27,13 +28,14 @@ function authContext({children}) {
         usertype:usertype,
         email:email,
         uid:uid,
+        imagepath:imagepath,
       })
       
 
     }
     else{
       setAuth(false);
-      setImagepath("null");
+      setImagepath("");
       
     }
 
@@ -47,10 +49,10 @@ function authContext({children}) {
         localStorage.setItem("auth",Auth);               //here we set the local storage
         localStorage.setItem("path",imagepath)
         localStorage.setItem("usertype",usertype)
-        localStorage.setItem("email",email)
         localStorage.setItem("name",uname)
+        localStorage.setItem("email",email)
         localStorage.setItem("uid",uid)
-console.log("valu after login function is hit ",usertype,email);
+console.log("value after login function is hit ",usertype,email);
   }
 
 

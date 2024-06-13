@@ -5,6 +5,7 @@ const con = require("./connection"); //page ko nam...ani uta bata k aauxa chai .
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const upload= require('./multer');
+const jwt=require('jsonwebtoken');
 dotenv.config();
 
 // const salt= process.env.salt;
@@ -63,7 +64,7 @@ router.post("/coursedata",upload.fields([{ name: 'course_image', maxCount: 1 }, 
 //       "mimetype": "image/jpeg",
 //       "destination": "./public/images",
 //       "filename": "1625246521456--image.jpg",
-//       "path": "./public/images/1625246521456--image.jpg",
+//       "path": "./public/images/1625246521456--image.jpg", //multer engine ma configure gareko path
 //       "size": 12345
 //     }
 //   ],
@@ -115,6 +116,9 @@ console.log(values);
     }
   )
 })
+//to generate a random 16 bytes code in terminan
+//node 
+//require('crypto' ).randomBytes(64).toString('hex')
 
 router.post("/login", function (req, res) {
   const sql = "SELECT * FROM user WHERE email = ?";
@@ -134,6 +138,8 @@ router.post("/login", function (req, res) {
     bcrypt.compare( req.body.password.toString(),user.password,(err, passwordMatch) => {
         if (err) return res.json({ Error: "Login error in server" });
         if (passwordMatch) {
+          const accessid={id:user.uid}
+          const accessToken=jwt.sign(accessid,process.env.Acess_token )
           console.log("success");
           return res.json({
             message: "Login success",
@@ -143,6 +149,7 @@ router.post("/login", function (req, res) {
             usertype:user.usertype,
             username:user.username,
             uid:user.uid,
+            accessToken:accessToken,
           });
         }
          else {
@@ -153,6 +160,19 @@ router.post("/login", function (req, res) {
     );
   });
 });
+
+//middleware for the authentication
+function authenticateToken(req,res,next){
+  const authHeader=req.headers['authorization'];
+  console.log(authHeader);
+  const token=authHeader&& authHeader.split('')[1]
+  if(token== null ) return res.sendStatus(401)
+    jwt.verify(token,process.env.Acess_token,(err,accessid)=>{  //accessid chai login huda token ma attach vako token object(which got decoded)
+  if(err) return res.sendStatus(403)
+    req.accessid=accessid          //verified vayo vani chai  accessid attach gardini to therequested acessid object
+  next()
+  })
+}
 
 
 /* GET home page. */
