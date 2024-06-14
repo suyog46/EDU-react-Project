@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState,} from 'react'
+import axios from 'axios';
 
  export const AuthContext=createContext();
 
@@ -13,47 +14,72 @@ function authContext({children}) {
                                   uid:"",    
                                   imagepath:"" ,                       
   })
-  useEffect(()=>{
-    const savedauth=localStorage.getItem('auth');        //here we get the local storage
-    const imagepath=localStorage.getItem('imagepath');
-    const email=localStorage.getItem('email');
-    const usertype=localStorage.getItem('usertype');
-    const name=localStorage.getItem('name');
-    const uid=localStorage.getItem('uid')
-    if(savedauth){
-      setAuth(true) 
-      setImagepath(imagepath)
-      setLoginfo({
-        name:name,
-        usertype:usertype,
-        email:email,
-        uid:uid,
-        imagepath:imagepath,
+  // useEffect(()=>{
+  //   const savedauth=localStorage.getItem('auth');        //here we get the local storage
+  //   const imagepath=localStorage.getItem('imagepath');
+  //   const email=localStorage.getItem('email');
+  //   const usertype=localStorage.getItem('usertype');
+  //   const name=localStorage.getItem('name');
+  //   const uid=localStorage.getItem('uid')
+  //   if(savedauth){
+  //     setAuth(true) 
+  //     setImagepath(imagepath)
+  //     setLoginfo({
+  //       name:name,
+  //       usertype:usertype,
+  //       email:email,
+  //       uid:uid,
+  //       imagepath:imagepath,
+  //     })
+      
+
+  //   }
+  //   else{
+  //     setAuth(false);
+  //     setImagepath("");
+      
+  //   }
+
+  //  },[]);
+
+  // useEffect(()=>{
+  //const login=(Auth,imagepath,email,usertype,uname,uid)=>{
+    const login= async (Auth)=>{
+
+      setAuth(Auth); 
+      console.log("value after function is hit",Auth);
+      const token=localStorage.getItem("token_id");
+      console.log(token);
+      const res=await axios.post("http://localhost:3000/userinfo", {}, {
+        headers: {
+          'Authorization': `Bearer ${token}` // Use 'token' instead of 't_id'
+         
+        }
+      }).then((res)=>{
+        console.log(res.data);
+        const na=res.data.imagepath;
+        console.log(na);
+        setLoginfo({
+          name:res.data.username,
+          usertype:res.data.usertype,
+          email:res.data.email,
+          uid:res.data.uid,
+          imagepath:na,
+        }
+        )
+        console.log(loginfo);
       })
-      
 
-    }
-    else{
-      setAuth(false);
-      setImagepath("");
-      
-    }
-
-   },[]);
-
-  
-  const login=(Auth,imagepath,email,usertype,uname,uid)=>{
-    console.log("value after function is hit",Auth);
-        setAuth(Auth); 
-        setImagepath(imagepath);     //lookout at these two  setauth and setimagepath again ...cause useEffect le nai kam gari sakyo ta
-        localStorage.setItem("auth",Auth);               //here we set the local storage
-        localStorage.setItem("path",imagepath)
-        localStorage.setItem("usertype",usertype)
-        localStorage.setItem("name",uname)
-        localStorage.setItem("email",email)
-        localStorage.setItem("uid",uid)
-console.log("value after login function is hit ",usertype,email);
+        // setImagepath(imagepath);     //lookout at these two  setauth and setimagepath again ...cause useEffect le nai kam gari sakyo ta
+        // localStorage.setItem("auth",Auth);               //here we set the local storage
+        // localStorage.setItem("path",imagepath)
+        // localStorage.setItem("usertype",usertype)
+        // localStorage.setItem("name",uname)
+        // localStorage.setItem("email",email)
+        // localStorage.setItem("uid",uid)
+// console.log("value after login function is hit ",usertype,email);
   }
+// })
 
 
   const logout=()=>{
@@ -62,7 +88,7 @@ console.log("value after login function is hit ",usertype,email);
     localStorage.removeItem("auth");
 
   }
-  const context={auth,login,logout,imagepath,loginfo}
+  const context={auth,login,logout,imagepath,loginfo,setLoginfo}
   return (
     <AuthContext.Provider value={context}>
       {children}

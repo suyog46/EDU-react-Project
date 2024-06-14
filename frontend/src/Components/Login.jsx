@@ -25,8 +25,11 @@ function Login({ toggle }) {
     try {
       const res = await axios.post("http://localhost:3000/login", logData);
       if (res.data.success) {
-        login(true,res.data.imagepath,res.data.email,res.data.usertype,res.data.username,res.data.uid); // Set auth to true on successful login
-        toggle();
+        localStorage.setItem("token_id",res.data.accessToken)
+        console.log(localStorage.getItem("token_id"));
+       // login(true,res.data.imagepath,res.data.email,res.data.usertype,res.data.username,res.data.uid); // Set auth to true on successful login
+       login(true) ;
+       toggle();
         // window.location.reload(true);
         console.log("logged in");
         alert('logged in succesfully!')
@@ -67,7 +70,7 @@ function Login({ toggle }) {
               </div>
               <input type="submit" value="Login" className="btn btn-danger" /><br /><br />
               <p className="text-primary-emphasis">New User?</p>
-              <button type="button" className="btn btn-outline-primary reg" onClick={showReg}>Register here {`${auth}`} </button>
+              <button type="button" className="btn btn-outline-primary reg" onClick={showReg}>Register here </button>
             </form>
           </div>
         </div>

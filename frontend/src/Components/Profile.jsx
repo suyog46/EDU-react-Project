@@ -17,7 +17,7 @@ function Profile() {
     <div class="d-flex justify-content-evenly">
 
     <h2 className="text-primary ">Hello {loginfo.name}</h2>  
-      <img src={`http://localhost:3000/${imagepath}`} className='m-3 rounded-circle object-fit ' height={40} width={40}/>
+      <img src={`http://localhost:3000/${loginfo.imagepath}`} className='m-3 rounded-circle object-fit ' height={40} width={40}/>
     </div>
     
 

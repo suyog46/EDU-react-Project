@@ -115,10 +115,37 @@ console.log(values);
         }
     }
   )
+}
+)
+
+router.get('/try', authenticateToken,(req,res)=>{
+  
+  return res.json({id:req.accessid.id});
 })
 //to generate a random 16 bytes code in terminan
 //node 
 //require('crypto' ).randomBytes(64).toString('hex')
+router.post("/userinfo",authenticateToken,(req,res)=>{
+  const sql="SELECT * FROM user WHERE uid = ?"
+  console.log(req);
+  con.query(sql,[req.accessid.id],(err,result)=>{
+    if(err){
+      res.json({msg:"error"})
+    }
+    if(result){
+      const user=result[0];
+      return (
+        res.json({
+        imagepath:user.Image,
+        email:user.email,
+        usertype:user.usertype,
+        username:user.username,
+        uid:user.uid,
+        })
+      )
+    }
+  })
+})
 
 router.post("/login", function (req, res) {
   const sql = "SELECT * FROM user WHERE email = ?";
@@ -165,7 +192,7 @@ router.post("/login", function (req, res) {
 function authenticateToken(req,res,next){
   const authHeader=req.headers['authorization'];
   console.log(authHeader);
-  const token=authHeader&& authHeader.split('')[1]
+  const token=authHeader&& authHeader.split(' ')[1]   //authHeader.split(' ') will produce the array ["Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"].
   if(token== null ) return res.sendStatus(401)
     jwt.verify(token,process.env.Acess_token,(err,accessid)=>{  //accessid chai login huda token ma attach vako token object(which got decoded)
   if(err) return res.sendStatus(403)
