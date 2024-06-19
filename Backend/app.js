@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+
+
 app.use( '/public',express.static('public'));
 //With this setup, any file located in the public directory can be accessed from the browser using a URL relative to the public directory. So, if your image file is located at public/images/1717823522836--Screenshot (69).png, it can be accessed using the URL http://localhost:3000/images/1717823522836--Screenshot (69).png.
 

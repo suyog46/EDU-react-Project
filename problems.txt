@@ -1,1 +1,2 @@
 login vai sakepaxi reload huda image ko path nai harauxa
+video aru url ma load hunxa but not in the frontend

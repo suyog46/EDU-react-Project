@@ -8,6 +8,7 @@ import Courses from './Components/Courses';
 import About from './Components/About';
 import Profile from './Components/Profile';
 import Addcourse from './Components/Addcourse';
+import Innercourse from './Components/Innercourse';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/Addcourse/:uid" element={<Addcourse/>} />
+        <Route path="/Innercourse/:id" element={<Innercourse/>} />
+
         
      </Routes>
         </BrowserRouter>

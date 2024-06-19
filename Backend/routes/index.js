@@ -49,9 +49,41 @@ if (!name || !email || !req.body.password || !Imagepath) {
 
 
 })
+router.post("/fetchcoursedetail",authenticateToken,(req,res)=>{
+    const value=req.accessid.id;
+    const {id}=req.body
+  
+      const sql1="Select * from Courses where cid=?"
+    con.query(sql1,id,(err,result1)=>{
+      if(err){
+        return(res.json({message:"error in fetching the course for the innercourse"}))
+      }
+      return(
+        res.json({message:"success",innerdata:result1})
+      )
+    })
+  }
+)
+  
 
-router.post("/coursedata",upload.fields([{ name: 'course_image', maxCount: 1 }, { name: 'course_video', maxCount: 1 }]),function(req,res){
+router.post("/fetchcourse",authenticateToken,(req,res)=>{
+
+const sql="Select * from Courses";
+con.query(sql,(err,result)=>{
+  if(err){
+    return(res.json({message:"error in fetching the course"}))
+  }
+  return(
+    res.json({message:"success",data:result})
+  )
+})
+
+})
+
+router.post("/coursedata",upload.fields([{ name: 'course_image', maxCount: 1 }, { name: 'course_video', maxCount: 1 }]),authenticateToken,function(req,res){
  const course_title=req.body.course_title
+ const t_id=req.accessid.id
+ console.log(req);
  const course_image = req.files['course_image'] ? req.files['course_image'][0].path : null;
  const course_video = req.files['course_video'] ? req.files['course_video'][0].path : null;
  
@@ -93,9 +125,9 @@ const {
       target_audience
     } = req.body;
 
- const values=[course_title,cover_description,course_price,course_image,course_video,course_duration,course_level,course_language,about_yourself,detail_description,target_audience,course_category]
+ const values=[t_id,course_title,cover_description,course_price,course_image,course_video,course_duration,course_level,course_language,about_yourself,detail_description,target_audience,course_category]
 console.log(values);
-  const sql="INSERT INTO courses(title,description,price,image,overview,duration,courselevel,language,aboutyourself,detaildescription,targetaudience,category) VALUES(?)";
+  const sql="INSERT INTO courses(Teacher_id,title,description,price,image,overview,duration,courselevel,language,aboutyourself,detaildescription,targetaudience,category) VALUES(?)";
   con.query(sql,[values],(err,result)=>{
     if(err){
       return(

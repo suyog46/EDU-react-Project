@@ -16,12 +16,5 @@ const up=multer.diskStorage({    destination: function (req, file, cb) {
                                                     {cb(null,Date.now()+"--"+file.originalname)}
                             });
  const upload = multer({ storage: up})
-// const vid=multer.diskStorage({ destination:function(req,file,cb){
-//                                             cb(null,'./public/videos')
-//                                                      },
-//                                  filename:function(req,file,cb){
-//                                         cb(null,Date.now()+""+file.originalname)
-//                                         }
-//                             })
-// const vidupload=multer({storage:vid})
+
  module.exports = upload;

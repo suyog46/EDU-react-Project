@@ -6,7 +6,6 @@ import axios from 'axios';
 function authContext({children}) {
 
   const [auth, setAuth]=useState(false);
-  const[imagepath,setImagepath]=useState('');
   const [loginfo,setLoginfo]=useState({
                                   name:"",
                                   usertype:"",
@@ -80,15 +79,13 @@ function authContext({children}) {
 // console.log("value after login function is hit ",usertype,email);
   }
 // })
-
-
   const logout=()=>{
     setAuth(false);
     console.log("logged out");
     localStorage.removeItem("auth");
-
   }
-  const context={auth,login,logout,imagepath,loginfo,setLoginfo}
+  const token=localStorage.getItem("token_id");
+  const context={auth,login,logout,loginfo,setLoginfo,token}
   return (
     <AuthContext.Provider value={context}>
       {children}
