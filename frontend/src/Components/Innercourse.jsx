@@ -8,8 +8,10 @@ import { useParams } from 'react-router-dom';
 function Innercourse() {
     
     const[course,setCourse]=useState({});
-const {token}=useContext(AuthContext);
+const {token,loginfo}=useContext(AuthContext);
 const { id } = useParams(); 
+const [enrolled, setEnrolled] = useState(false);
+
 useEffect(() => {
     const fetchData = async () => {
         try {
@@ -25,6 +27,12 @@ useEffect(() => {
             const courseData = res.data.innerdata[0];
             setCourse(courseData);
             console.log(courseData); 
+            const eres = await axios.get(`http://localhost:3000/checkenrollment/${id}`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
+              setEnrolled(eres.data.enrolled);
         } catch (error) {
             console.error('Error fetching course:', error);
         
@@ -59,7 +67,7 @@ if (!course) {
                         </div>
                         <div className="col-lg-4 lh-lg">
                             <h1>{course.price}</h1>
-                            {/* {(userType !== "teacher" && userType !== "Admin") && (
+                            {(loginfo.usertype !== "teacher" && loginfo.usertype !== "Admin") && (
                                 <form onSubmit={(e) => { e.preventDefault(); handleEnroll(); }}>
                                     <br /><br />
                                     {enrolled ? (
@@ -68,7 +76,7 @@ if (!course) {
                                         <button type="submit" className="btn btn-primary mx-auto">Enroll this course</button>
                                     )}
                                 </form>
-                            )} */}
+                            )}
                             <div className="info">
                                 <p><i className="bi bi-alarm"></i> Duration: {course.duration}</p>
                                 <p><i className="bi bi-hand-thumbs-up-fill"></i> Skill level: {course.courselevel}</p>

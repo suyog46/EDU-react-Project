@@ -79,6 +79,24 @@ con.query(sql,(err,result)=>{
 })
 
 })
+router.get("/checkenrollment/:id", authenticateToken, (req, res) => {
+  const { id } = req.params; 
+  const uid = req.accessid.id; 
+
+  const sql = "SELECT * FROM student_course WHERE student_id = ? AND course_id = ?";
+  con.query(sql, [uid, id], (err, result) => {
+    if (err) {
+      console.error("Error in fetching enrollment status:", err);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+    if (result.length > 0) {
+      return res.json({ message: "success", enrolled: true });
+    } else {
+      return res.json({ message: "success", enrolled: false });
+    }
+  });
+});
 
 router.post("/coursedata",upload.fields([{ name: 'course_image', maxCount: 1 }, { name: 'course_video', maxCount: 1 }]),authenticateToken,function(req,res){
  const course_title=req.body.course_title
