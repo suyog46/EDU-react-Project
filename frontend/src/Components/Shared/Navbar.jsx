@@ -10,11 +10,13 @@ function Navbar() {
     const toggle=()=>{
         setVisible(!visible);
     }
-const {logout,auth,imagepath}=useContext(AuthContext)
+const {logout,auth,loginfo}=useContext(AuthContext)
  const lout=()=>
     {toggle();
     logout();
 };
+console.log("info",loginfo);
+console.log("auth in the navbar",auth);
 
     return (
         <>
@@ -59,7 +61,7 @@ const {logout,auth,imagepath}=useContext(AuthContext)
     <div>
 
     <Link to='/profile'>
-    <img src={`http://localhost:3000/${imagepath}`} className='m-3 rounded-circle object-fit' height={40} width={40}/>
+    <img src={`http://localhost:3000/${loginfo.imagepath}`} className='m-3 rounded-circle object-fit' height={40} width={40}/>
     </Link>
     <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={lout}>logout</button>
     </div>):( <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={toggle}>Sign in</button>)}

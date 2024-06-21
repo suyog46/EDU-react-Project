@@ -5,6 +5,7 @@ const con = require("./connection"); //page ko nam...ani uta bata k aauxa chai .
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const upload= require('./multer');
+
 const jwt=require('jsonwebtoken');
 dotenv.config();
 
@@ -25,16 +26,18 @@ router.use(cors({
 //   res.send("Single FIle upload success");
 // });
 
-router.post("/signup",upload.single("Image"), (req, res) => {
-  console.log(req.body)
+router.post("/signup",upload.single('image'), (req, res) => {
   const name = req.body.uname;
   const email = req.body.email;
   const userType = req.body.logintype;
-const Imagepath=req.file.path;
+  console.log(req.file);
+  const Imagepath=req.file.path;
 if (!name || !email || !req.body.password || !Imagepath) {
   return res.status(400).json({ Error: "Missing required fields" });
 }
+console.log("first");
   bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
+    console.log("second");
     if (err) return res.json({ Error: "Error hashing password" });
 
     const values = [name, email, hash,Imagepath,userType];
@@ -98,15 +101,36 @@ router.get("/checkenrollment/:id", authenticateToken, (req, res) => {
   });
 });
 
+
+router.post('/enroll', authenticateToken,(req,res)=>{
+  id=req.body.cid 
+  userid=req.accessid.id
+  console.log(userid,id);
+  console.log(typeof(userid));
+  console.log(typeof(id));
+  sql="INSERT INTO student_course (student_id, course_id) VALUES (?, ?)";
+  con.query(sql,[userid,id],(err,result)=>{
+    console.log(result)
+    if(err){
+      console.log(err);
+      return res.json({message:"error in inserting the data"})
+    }
+ 
+      return res.json({message:"success"})
+    }
+  )
+
+})
+
 router.post("/coursedata",upload.fields([{ name: 'course_image', maxCount: 1 }, { name: 'course_video', maxCount: 1 }]),authenticateToken,function(req,res){
  const course_title=req.body.course_title
  const t_id=req.accessid.id
- console.log(req);
+ console.log(req.body);
  const course_image = req.files['course_image'] ? req.files['course_image'][0].path : null;
  const course_video = req.files['course_video'] ? req.files['course_video'][0].path : null;
  
 // {
-//   "course_image": [                                   yo format ma haldinxa 
+//   "course_image": [                                   yo format ma haldinxa file
 //     {
 //       "fieldname": "course_image",
 //       "originalname": "image.jpg",

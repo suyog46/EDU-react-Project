@@ -14,7 +14,6 @@ function Register({showReg,toggle}) {
       email:"",
       password:"",
       logintype:"",
-      Image:"",
     }
   )
   const handleInput=(event)=>{
@@ -26,7 +25,9 @@ function Register({showReg,toggle}) {
   }
   async function handleSubmit(event){
     event.preventDefault();
-    const res =  await axios.post("http://localhost:3000/signup",formData) 
+    console.log(formData);
+    const res =  await axios.post("http://localhost:3000/signup",formData) ;
+
     console.log(res);
 
     if(res.data.success){
@@ -40,8 +41,8 @@ function Register({showReg,toggle}) {
     <>
     <div className="register  ps  rounded bg-light text-dark" >
         <i className="bi bi-x-circle-fill rcr"  onClick={showBoth}/>
-  <form >
-    <div className="row">
+        <form  method="POST" enctype="multipart/form-data">
+        <div className="row">
       <div className="col-12 pb-3">
         <h1 className="mt-4">Register</h1>
         <br />
@@ -110,7 +111,7 @@ function Register({showReg,toggle}) {
         </label>
         <br /><br />
         <label htmlFor="Image">Choose a profile picture</label><br />
-        <input type="file" name="pimage" id="pimage" className="rounded" onChange={handleInput} /><br /><br />
+        <input type="file" name="image" id="Image" className="rounded" onChange={handleInput} /><br /><br />
         <input type="submit" name="submit" defaultValue="submit" className="but rounded" onClick={handleSubmit} />
       </div>
     </div>

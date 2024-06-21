@@ -3,16 +3,47 @@ import { useContext } from 'react'
 import { useEffect } from 'react'
 import { AuthContext } from '../Context/authContext'
 import axios  from 'axios'
-import { useParams } from 'react-router-dom';
+import { useParams} from 'react-router-dom';
+
 
 function Innercourse() {
     
     const[course,setCourse]=useState({});
-const {token,loginfo}=useContext(AuthContext);
+const {token,loginfo,auth}=useContext(AuthContext);
 const { id } = useParams(); 
 const [enrolled, setEnrolled] = useState(false);
 
+const handleEnroll = async (event) => {
+   event.preventDefault();
+   console.log(token);
+   console.log(typeof(parseInt(id)));
+        const res = await axios.post('http://localhost:3000/enroll', 
+            { cid:parseInt(id)}, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        console.log(res.data);
+      
+      if (res.data.message === 'success') {
+          setEnrolled(true);
+        } else {
+            alert('Enrollment failed');
+        }
+    
+    
+  };
+
+
 useEffect(() => {
+    if(!auth){
+        alert("please sign in to view the detail");
+        window.history.back();
+
+        // navigate("/");
+    }
     const fetchData = async () => {
         try {
             const res = await axios.post(
@@ -66,9 +97,9 @@ if (!course) {
                             </video>
                         </div>
                         <div className="col-lg-4 lh-lg">
-                            <h1>{course.price}</h1>
+                            <h1>${course.price}</h1>
                             {(loginfo.usertype !== "teacher" && loginfo.usertype !== "Admin") && (
-                                <form onSubmit={(e) => { e.preventDefault(); handleEnroll(); }}>
+                                <form onSubmit={ handleEnroll}>
                                     <br /><br />
                                     {enrolled ? (
                                         <p className="btn btn-danger mx-auto">Already enrolled</p>

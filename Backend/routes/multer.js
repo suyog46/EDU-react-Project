@@ -9,6 +9,11 @@ const up=multer.diskStorage({    destination: function (req, file, cb) {
        } else if (file.fieldname === 'course_video') {
          cb(null, './public/videos');
        }
+       else{
+                  cb(null,'./public/pimages');
+
+       }
+       
      },
                                                         // The callback is invoked with null as the first argument (to indicate no error) and
                                                  // the directory path as the second argument.

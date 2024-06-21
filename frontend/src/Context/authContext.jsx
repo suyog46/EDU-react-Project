@@ -85,7 +85,7 @@ function authContext({children}) {
     localStorage.removeItem("auth");
   }
   const token=localStorage.getItem("token_id");
-  const context={auth,login,logout,loginfo,setLoginfo,token}
+  const context={auth,setAuth,login,logout,loginfo,setLoginfo,token}
   return (
     <AuthContext.Provider value={context}>
       {children}
