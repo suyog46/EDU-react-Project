@@ -6,6 +6,24 @@ import { AuthContext } from '../../Context/authContext';
 import { Route,Routes,Link, BrowserRouter } from 'react-router-dom';
 
 function Navbar() {
+    var navLinks = document.querySelectorAll('.navbar-expand-lg .navbar-nav .nav-link');
+window.addEventListener('scroll', function () {
+    let sc = scrollY;
+ 
+    if (sc > 50) {
+        document.querySelector('header').style.backgroundColor = 'white'
+
+        navLinks.forEach(function (link) {
+            link.style.color = 'black';
+        });
+    }
+    else{
+        document.querySelector('header').style.backgroundColor = 'transparent'
+        navLinks.forEach(function (link) {
+            link.style.color = 'white';
+        })
+    };
+})
     const [visible, setVisible]=useState(false);
     const toggle=()=>{
         setVisible(!visible);
@@ -20,8 +38,8 @@ console.log("auth in the navbar",auth);
 
     return (
         <>
-       
-        <nav className="navbar navbar-expand-lg bg-body-transparent">
+       <header>
+        <nav className="navbar navbar-expand-lg ">
             <div className="container-lg">
                 <Link className="navbar-brand" to="/">
                     <img src="https://marketplace.canva.com/EAFauoQSZtY/1/0/1600w/canva-brown-mascot-lion-free-logo-qJptouniZ0A.jpg" alt id="logo"  />
@@ -67,8 +85,10 @@ console.log("auth in the navbar",auth);
     </div>):( <button className="btn btn-primary mt-sm-3 mt-lg-0 mx-lg-3 sign-in" onClick={toggle}>Sign in</button>)}
             </div>
         </nav>
+    </header>
         {visible && (<Login toggle={toggle}/>)} 
     {/* visible true xa vani login component visible hunu paryo */}
+
         </>
     )
 }

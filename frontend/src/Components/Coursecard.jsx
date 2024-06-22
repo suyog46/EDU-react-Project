@@ -5,34 +5,16 @@ import { AuthContext } from '../Context/authContext'
 import axios  from 'axios'
 import { Link } from 'react-router-dom';
 
-function Coursecard() {
+function Coursecard({course,setCourse}) {
 
-    const[course,setCourse]=useState([]);
-const {token}=useContext(AuthContext);
-    useEffect(
-        ()=>{
-            const fetchData=async()=>{
-                             const res=await axios.post('http://localhost:3000/fetchcourse/', {}, {
-                        headers: {
-                          'Authorization': `Bearer ${token}` 
-                         
-                        }}).then((res)=>{const course=res.data.data
-                            setCourse(course);
-                    })
-                }
-                fetchData();
-                
-    }
-   
-    ,[]);
-console.log("after evrythhing",course);
+console.log("course at the coursecard ",course);
   
 return (
   <>
-      <div className='row border'>
-    {course.map((course) => (
-      <div className="col-4 mt-5" key={course.course_id}>
-        <div className="card bg-body-secondary h" style={{ width: '20rem' }}>
+ 
+    {/* {console.log("to be displayed",course)} */}
+      {/* <div className="col-lg-4 border border-primary"> */}
+        <div className="card bg-body-secondary h" style={{ width: '20rem'}}  key={course.course_id}>
           <div className="card-head he card-img-top">
             <img
               src={`http://localhost:3000/${course.image}`}
@@ -69,9 +51,9 @@ return (
             </li>
           </ul>
         </div>
-      </div>
-    ))}
-    </div>
+      {/* </div> */}
+    {/* ))} */}
+   
   </>
 );
 }

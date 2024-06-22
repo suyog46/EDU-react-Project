@@ -97,6 +97,9 @@ ul{
     overflow-y:hidden;
 
 }
+.course-page{
+    margin-top: 145px;
+}
 .card{
   
     
@@ -215,6 +218,10 @@ ul{
     height:350px;
     position: relative;
 }
+.search{
+    height: 890x;
+    overflow: hidden;
+}
 .search-filter{
     
     margin-bottom: 1rem;
@@ -222,7 +229,7 @@ ul{
 .search-container{
     position: sticky;
     top: 0;
-    height: 100vh;
+    // height: 100vh;
     width:100%;
     overflow-x:hidden ;
     margin-top: 25px;
@@ -299,7 +306,8 @@ ul{
     padding: 0.2rem 1.25rem 1rem;
     margin-bottom: 20px;
 }
-.category-options b{
+
+.category-options {
     display: block;
     margin-bottom: 0.7rem;
     margin-top: 0.56rem;

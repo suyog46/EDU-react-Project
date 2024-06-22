@@ -1,8 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import "/public/Styles/css/Courses.css"
 import Coursecard from './Coursecard'
+import Filter from './Filter'
+import { AuthContext } from '../Context/authContext'
+import axios  from 'axios'
+import { Link } from 'react-router-dom';
 
 function Courses() {
+  
+  const[course,setCourse]=useState([]);
+  const {token}=useContext(AuthContext);
+      useEffect(
+          ()=>{
+              const fetchData=async()=>{
+                               const res=await axios.post('http://localhost:3000/fetchcourse/', {}, {
+                          headers: {
+                            'Authorization': `Bearer ${token}` 
+                           
+                          }}).then((res)=>{const course=res.data.data
+                              setCourse(course);
+                      })
+                  }
+                  fetchData();
+                  
+      }
+  
+     
+      ,[]);
+      const course_det={course,setCourse};
+  console.log("after evrythhing",course)
   return (
     <>
 
@@ -121,10 +147,22 @@ function Courses() {
     </div>
   </div>
 </section>
-<div className="container mt-5 ">
-<Coursecard/>
-</div>
+<div className="container-fluid course-page ">
+  <div className="row ">
+  
+    <Filter course={course} setCourse={setCourse}/>
+ 
+ <div className='col-lg-9'>
 
+  <div className="row gap-5 ps-5">
+  {course.map((course) => (
+    
+    <Coursecard course={course} setCourse={setCourse}/>
+  ))}
+  </div>
+  </div>
+  </div>
+</div>
     <br /><br />
 
    

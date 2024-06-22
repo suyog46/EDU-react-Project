@@ -16,7 +16,6 @@ function App() {
      <AuthContext>
    <BrowserRouter>
       <Navbar />
-      <Footer />
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/co" element={<Courses/>} />
@@ -27,6 +26,7 @@ function App() {
 
         
      </Routes>
+      <Footer />
         </BrowserRouter>
       </AuthContext> 
     </>

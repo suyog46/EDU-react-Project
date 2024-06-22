@@ -1,0 +1,51 @@
+.ps {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.firstview {
+  color: white;
+  background: url("../Images/home2.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
+}
+
+.img1 {
+  height: 200px;
+  width: 165px;
+  background: url("../Images/about-1.jpg");
+  background-size: cover;
+}
+
+.img2 {
+  height: 200px;
+  width: 165px;
+  background: url("../Images/about-2.jpg");
+  background-size: cover;
+}
+
+.img3 {
+  height: 200px;
+  width: 165px;
+  background: url("../Images/about-3.jpg");
+  background-size: cover;
+}
+
+.img4 {
+  height: 200px;
+  width: 165px;
+  background: url("../Images/about-4.jpg");
+  background-size: cover;
+}
+
+.about-1 {
+  padding: 20px;
+}
+.about-1:hover {
+  -webkit-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

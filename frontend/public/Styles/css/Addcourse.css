@@ -6,7 +6,7 @@
           transform: translate(-50%, -50%);
 }
 
-.firstview {
+.firstview-about {
   color: white;
   background: url("../Images/home2.jpg");
   background-size: cover;
