@@ -220,6 +220,30 @@ router.post("/userinfo",authenticateToken,(req,res)=>{
     }
   })
 })
+router.post("/teacherdet",(req,res)=>{
+  cid=req.body.cid;
+  sql="SELECT user.username,user.image FROM user LEFT JOIN courses ON courses.Teacher_id=user.uid WHERE courses.cid=? "
+  con.query(sql,cid,(err,result)=>{
+    if(err){
+      console.log("there is error in the handling",err)
+      return res.json({meessage:"error in the query"})
+    }
+    return res.json({message:"success",data:result[0]})
+  })
+
+})
+router.post("/catdet",(req,res)=>{
+  cat=req.body.cat;
+  sql="SELECT COUNT(cid) as count FROM courses where category=? "
+  con.query(sql,cat,(err,result)=>{
+    if(err){
+      console.log("there is error in the handling",err)
+      return res.json({meessage:"error in the query"})
+    }
+    return res.json({message:"success",data:result[0]})
+  })
+
+})
 
 router.post("/login", function (req, res) {
   const sql = "SELECT * FROM user WHERE email = ?";

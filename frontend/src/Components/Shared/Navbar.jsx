@@ -11,14 +11,14 @@ window.addEventListener('scroll', function () {
     let sc = scrollY;
  
     if (sc > 50) {
-        document.querySelector('header').style.backgroundColor = 'white'
+        document.querySelector('nav').style.backgroundColor = 'white'
 
         navLinks.forEach(function (link) {
             link.style.color = 'black';
         });
     }
     else{
-        document.querySelector('header').style.backgroundColor = 'transparent'
+        document.querySelector('nav').style.backgroundColor = 'transparent'
         navLinks.forEach(function (link) {
             link.style.color = 'white';
         })

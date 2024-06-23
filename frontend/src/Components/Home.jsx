@@ -3,7 +3,7 @@ import "/public/Styles/Home.scss"
 import { AuthContext } from '../Context/authContext'
 
 function Home() {
-  const {name}=useContext(AuthContext);
+  const {name,categoryData}=useContext(AuthContext);
   console.log(name);
   useEffect( function () {
     const images = ["../Images/home1.jpg", "../Images/home2.jpg", "../Images/home3.jpg"];
@@ -85,10 +85,7 @@ function Home() {
           <div className="catb-back rounded catb-1">
             <div className="back-text">
               <h3>
-                {/*?php 
-                              $cat="business";
-                              echo totalcat($cat);
-                          ?*/} 
+             {categoryData.business}
                 courses</h3>
               <a href="../Courses/allcourses.php" className="btn btn-primary rounded-pill">View all courses</a>
             </div>
@@ -105,10 +102,8 @@ function Home() {
           <div className="catb-back rounded catb-2">
             <div className="back-text">
               <h3>
-                {/*?php 
-                              $cat="art";
-                              echo totalcat($cat);
-                          ?*/}  
+              {categoryData.art}
+
                 courses</h3>
               <a href="../Courses/allcourses.php" className="btn btn-primary rounded-pill">View all courses</a>
             </div>
@@ -125,10 +120,8 @@ function Home() {
           <div className="catb-back rounded catb-1">
             <div className="back-text">
               <h3>
-                {/*?php 
-                              $cat="languages";
-                              echo totalcat($cat);
-                          ?*/}     
+              {categoryData.languages}
+   
                 courses</h3>
               <a href="../Courses/allcourses.php" className="btn btn-primary rounded-pill">View all courses</a>
             </div>
@@ -140,15 +133,13 @@ function Home() {
       <div className="catb ">
         <div className="catb-inner shadow rounded">
           <div className="catb-front  catf-4 rounded">
-            <h1>History</h1>
+            <h1>Programming</h1>
           </div>
           <div className="catb-back rounded catb-4">
             <div className="back-text">
               <h3>
-                {/*?php 
-                              $cat="history";
-                              echo totalcat($cat);
-                          ?*/}     
+              {categoryData.programming}
+  
                 courses</h3>
               <a href="../Courses/allcourses.php" className="btn btn-primary rounded-pill">View all courses</a>
             </div>
@@ -165,10 +156,8 @@ function Home() {
           <div className="catb-back rounded catb-5">
             <div className="back-text">
               <h3>
-                {/*?php 
-                              $cat="politics";
-                              echo totalcat($cat);
-                          ?*/}     
+              {categoryData.politics}
+     
                 courses</h3>
               <a href="../Courses/allcourses.php" className="btn btn-primary rounded-pill">View all courses</a>
             </div>
@@ -185,10 +174,8 @@ function Home() {
           <div className="catb-back rounded catb-6">
             <div className="back-text">
               <h3>
-                {/*?php 
-                              $cat="others";
-                              echo totalcat($cat);
-                          ?*/}     
+              {categoryData.others}
+    
                 courses</h3>
               <a href="../Courses/allcourses.php" className="btn btn-primary rounded-pill">View all courses</a>
             </div>

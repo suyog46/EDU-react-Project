@@ -6,12 +6,22 @@ import axios  from 'axios'
 import { Link } from 'react-router-dom';
 
 function Coursecard({course,setCourse}) {
-
+  const cid=course.cid;
+  const {categoryData,fetchTeacher}=useContext(AuthContext);
+  const [teacher_data,setTeacher_data]=useState({});
+  useEffect(()=>{
+    const data=async ()=>{
+            setTeacher_data(await fetchTeacher(cid));
+            
+          }
+          data()
+        },[])
 console.log("course at the coursecard ",course);
   
+console.log("teacher ",teacher_data
+);
 return (
   <>
- 
     {/* {console.log("to be displayed",course)} */}
       {/* <div className="col-lg-4 border border-primary"> */}
         <div className="card bg-body-secondary h" style={{ width: '20rem'}}  key={course.course_id}>
@@ -35,19 +45,19 @@ return (
           </div>
           <ul className="px-3">
             <li className="d-flex gap-2 justify-content-start">
-              Published by:
-              <img
-                src={`data:image/jpeg;base64,${course.userimage}`}
+              {/* Published by:{teacher_data.username} */}
+              {/* <img
+                src={`http://localhost:3000/${teacher_data.Image}`}
                 className="rounded-circle object-fit-cover"
                 height="30"
                 width="30"
                 alt={course.username}
-              />
+              /> */}
               {course.username}
             </li>
             <li className="d-flex justify-content-between">
               <p><i className="bi bi-clock-fill pe-2"></i>{course.duration}hrs</p>
-              <p><i className="bi bi-people-fill pe-2"></i>{course.totalStudents} students</p>
+              <p><i className="bi bi-people-fill pe-2"></i>{categoryData[course.category]} students</p>
             </li>
           </ul>
         </div>

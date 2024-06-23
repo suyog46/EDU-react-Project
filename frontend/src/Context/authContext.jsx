@@ -43,8 +43,58 @@ function authContext({children}) {
 
   // useEffect(()=>{
   //const login=(Auth,imagepath,email,usertype,uname,uid)=>{
-    const login= async (Auth)=>{
+    const [categoryData, setCategoryData] = useState({});
 
+    const fetchTeacher= async (id)=>{
+      try {
+        const res = await axios.post("http://localhost:3000/teacherdet", { cid:id });
+        return res.data.data; 
+      } catch (error) {
+        console.error(`Error fetching category data for ${cid}:`, error);
+        return 0;
+      }
+    }
+    useEffect(() => 
+      {
+    
+  
+      const fetchData = async () => {
+        try {
+          const programmingCount = await fetchCategoryData("programming");
+          const othersCount = await fetchCategoryData("others");
+          const BusinessCount = await fetchCategoryData("business");
+          const ArtCount = await fetchCategoryData("art");
+          const LanguagesCount = await fetchCategoryData("languages");
+          const PoliticsCount = await fetchCategoryData("politics");
+
+          setCategoryData({
+            programming: programmingCount,
+            others: othersCount,
+            politics:PoliticsCount,
+            art:ArtCount,
+            business:BusinessCount,
+            languages:LanguagesCount
+          });
+        
+        } catch (error) {
+          console.log("there is a error",error);
+        }
+      };
+      const fetchCategoryData = async (catdata) => {
+        try {
+          const res = await axios.post("http://localhost:3000/catdet", { cat: catdata });
+          return res.data.data.count; 
+        } catch (error) {
+          console.error(`Error fetching category data for ${catdata}:`, error);
+          return 0;
+        }
+      };
+  console.log("state",categoryData);
+      fetchData();
+    }, []);
+   
+   
+    const login= async (Auth)=>{
       setAuth(Auth); 
       console.log("value after function is hit",Auth);
       const token=localStorage.getItem("token_id");
@@ -84,8 +134,9 @@ function authContext({children}) {
     console.log("logged out");
     localStorage.removeItem("auth");
   }
+
   const token=localStorage.getItem("token_id");
-  const context={auth,setAuth,login,logout,loginfo,setLoginfo,token}
+  const context={auth,setAuth,login,logout,loginfo,setLoginfo,token,categoryData,fetchTeacher}
   return (
     <AuthContext.Provider value={context}>
       {children}

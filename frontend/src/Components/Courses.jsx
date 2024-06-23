@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState,useContext, Children } from 'react'
 import "/public/Styles/css/Courses.css"
 import Coursecard from './Coursecard'
 import Filter from './Filter'
@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom';
 function Courses() {
   
   const[course,setCourse]=useState([]);
-  const {token}=useContext(AuthContext);
-      useEffect(
-          ()=>{
+  const {token,categoryData}=useContext(AuthContext);
+  useEffect(
+    ()=>{
               const fetchData=async()=>{
                                const res=await axios.post('http://localhost:3000/fetchcourse/', {}, {
                           headers: {
@@ -20,9 +20,9 @@ function Courses() {
                           }}).then((res)=>{const course=res.data.data
                               setCourse(course);
                       })
+              console.log("At courses catdata",categoryData);
                   }
                   fetchData();
-                  
       }
   
      
@@ -31,7 +31,6 @@ function Courses() {
   console.log("after evrythhing",course)
   return (
     <>
-
     <section className="head position-relative">
   <div className="container-fluid">
     <div className="row ">
@@ -55,12 +54,7 @@ function Courses() {
           <div className="text  pt-2  ">
             <h5>Business</h5>
             <p>
-              {/*?php
-                          $cat = "business";
-                          echo totalcat($cat);
-                          ?*/}
-                          10
-              courses
+         {categoryData.business}courses
             </p>
           </div>
         </div>
@@ -71,12 +65,8 @@ function Courses() {
           <div className="text  pt-2  ">
             <h5>Creative Arts</h5>
             <p>
-              {/*?php
-                          $cat = "art";
-                          echo totalcat($cat);
-                          ?*/}
-                          10
-              courses
+            {categoryData.art}
+courses
             </p>
           </div>
         </div>
@@ -102,11 +92,8 @@ function Courses() {
           <div className="text  pt-2  ">
             <h5>Programming</h5>
              <p>
-              {/*?php
-                          $cat = "programming";
-                          echo totalcat($cat);
-                          ?*/}
-                          11
+             {categoryData.programming}
+
               courses
             </p> 
           </div>
@@ -118,11 +105,8 @@ function Courses() {
           <div className="text  pt-2  ">
             <h5>History</h5>
              <p>
-              {/* ?php
-                          $cat = "history";
-                          echo totalcat($cat);
-                          ? */}
-                          10
+             {categoryData.business}
+
               courses
             </p> 
           </div>
@@ -134,11 +118,8 @@ function Courses() {
           <div className="text  pt-2  ">
             <h5>Others</h5>
           <p>
-              {/* ?php
-                          $cat = "others";
-                          echo totalcat($cat);
-                          ? */}
-                          99
+          {categoryData.others}
+
               courses
             </p> 
           </div>
