@@ -1,2 +1,3 @@
 login vai sakepaxi reload huda image ko path nai harauxa
 video aru url ma load hunxa but not in the frontend
+coursecard ma teacherdetail state ma object janxa tara vitra ko use garna mili raxaina

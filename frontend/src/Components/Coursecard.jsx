@@ -8,21 +8,25 @@ import { Link } from 'react-router-dom';
 function Coursecard({course,setCourse}) {
   const cid=course.cid;
   const {categoryData,fetchTeacher}=useContext(AuthContext);
-  const [teacher_data,setTeacher_data]=useState({});
+  const [teacher_data,setTeacher_data]=useState({username :"",image:""});
   useEffect(()=>{
     const data=async ()=>{
-            setTeacher_data(await fetchTeacher(cid));
-            
+     const res = await fetchTeacher(cid);
+      setTeacher_data({
+        username:res.username,
+        image:res.image
+      })
+
           }
           data()
         },[])
 console.log("course at the coursecard ",course);
   
-console.log("teacher ",teacher_data
+console.log("teacher ",teacher_data.username
 );
 return (
   <>
-    {/* {console.log("to be displayed",course)} */}
+    {console.log("to be displayed",teacher_data)}
       {/* <div className="col-lg-4 border border-primary"> */}
         <div className="card bg-body-secondary h" style={{ width: '20rem'}}  key={course.course_id}>
           <div className="card-head he card-img-top">
@@ -44,15 +48,15 @@ return (
             <p className="card-text">{course.description}</p>
           </div>
           <ul className="px-3">
-            <li className="d-flex gap-2 justify-content-start">
-              {/* Published by:{teacher_data.username} */}
-              {/* <img
-                src={`http://localhost:3000/${teacher_data.Image}`}
+            <li className="d-flex gap-2 justify-content-between">
+              Published by:{teacher_data.username} 
+              <img
+                src={`http://localhost:3000/${teacher_data.image}`}
                 className="rounded-circle object-fit-cover"
                 height="30"
                 width="30"
                 alt={course.username}
-              /> */}
+              />
               {course.username}
             </li>
             <li className="d-flex justify-content-between">
